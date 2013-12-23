@@ -1,3 +1,8 @@
+.frameborder {
+    outline-style:solid !important;
+    outline-width:thin;
+    outline-color:white ;
+}
 .minilist {
     overflow-x: auto;
     overflow-y: auto;
@@ -8,7 +13,7 @@
 }
 /*Minilisttodiv is required to make scrollbar appear on resize*/
  .minilisttodiv {
-     /* width = nimages x 50 + (nimages+2) x 2 */
+    /* width = nimages x 50 + (nimages+2) x 2 */
     width: 262px;
     height:100%;
     margin:0;
@@ -44,7 +49,6 @@
     bottom: 0;
     right: 0;
 }
-
 /*Display 1 image*/
  .splitting_1-1 {
     top:45px;

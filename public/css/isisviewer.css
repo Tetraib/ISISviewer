@@ -1,0 +1,117 @@
+.minilist {
+    overflow-x: auto;
+    overflow-y: auto;
+    margin: 0 1px;
+    padding: 0;
+    height:65px;
+    width:100%;
+}
+/*Minilisttodiv is required to make scrollbar appear on resize*/
+ .minilisttodiv {
+     /* width = nimages x 50 + (nimages+2) x 2 */
+    width: 262px;
+    height:100%;
+    margin:0;
+    padding:0;
+}
+.minidiv {
+    background-color:black;
+    text-align:center;
+    display:inline-block;
+    margin:7.5px 1px;
+    height:50px;
+    width:50px;
+}
+.minidiv img {
+    max-height:100%;
+    max-width:100%;
+    margin:0 auto;
+}
+/*___________*/
+
+/*Image frame*/
+ .imageframe {
+    text-align:center;
+    background-color:black;
+    position: absolute;
+    overflow: auto;
+}
+.imageframe img {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/*Display 1 image*/
+ .splitting_1-1 {
+    top:45px;
+    bottom: 67px;
+    left: 2px;
+    right: 2px;
+}
+/*----------------*/
+
+/*Display 2 images*/
+ .splitting_2-1 {
+    top:45px;
+    bottom: 67px;
+    left: 2px;
+    right: calc(50% + 1px);
+}
+.splitting_2-2 {
+    top:45px;
+    bottom:67px;
+    left: calc(50% + 1px);
+    right: 2px;
+}
+/*----------------*/
+
+/*Display 3 images*/
+ .splitting_3-1 {
+    top:45px;
+    bottom: 67px;
+    left: 2px;
+    right: calc(66.66% + 1px);
+}
+.splitting_3-2 {
+    top:45px;
+    bottom: 67px;
+    left: calc(33.33% + 1px);
+    right: calc(33.33% + 1px);
+}
+.splitting_3-3 {
+    top:45px;
+    bottom: 67px;
+    left: calc(66.66% + 1px);
+    right: 2px;
+}
+/*----------------*/
+
+/*Display 4 images*/
+ .splitting_4-1 {
+    top:45px;
+    bottom: calc(50% + 1px);
+    left: 2px;
+    right: calc(50% + 1px);
+}
+.splitting_4-2 {
+    top:45px;
+    bottom: calc(50% + 1px);
+    left: calc(50% + 1px);
+    right: 2px;
+}
+.splitting_4-3 {
+    top: calc(1px + 50%);
+    bottom: 67px;
+    left: 2px;
+    right: calc(50% + 1px);
+}
+.splitting_4-4 {
+    top: calc(1px + 50%);
+    bottom: 67px;
+    left: calc(50% + 1px);
+    right: 2px;
+}

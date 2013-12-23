@@ -1,0 +1,5 @@
+#ignoring files for Git
+node_modules/
+.c9revisions/
+.git/
+_HELP

@@ -1,0 +1,15 @@
+{
+  "name": "ISISviewer",
+  "description": "",
+  "author": "Thibaut CONSTANT",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.4.x",
+    "mongoose":"3.8.x",
+    "jade":"0.35.x"
+},
+"engines": {
+    "node": "0.10.x",
+    "npm": "1.3.x"
+  }
+}

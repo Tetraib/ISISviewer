@@ -35,4 +35,14 @@ $(document).on("pageinit", function() {
         console.log(selectedimage)
         $("#"+selectedframe +" img").attr("src", selectedimage);
     });
+    
+    //Click btn toolbar
+    var selectedfunction = "nofunction";
+    $('#'+selectedfunction).addClass("ui-btn-active");
+    $(".btntoolbar").on("click", function(){
+       
+        
+        $(".btntoolbar").removeClass("ui-btn-active");
+        $(this).addClass("ui-btn-active");
+    });
 });

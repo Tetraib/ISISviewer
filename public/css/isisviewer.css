@@ -1,7 +1,7 @@
 .frameborder {
     outline-style:solid !important;
-    outline-width:thin;
-    outline-color:white ;
+    outline-width:2px !important;
+    outline-color:white;
 }
 .minilist {
     overflow-x: auto;
@@ -26,6 +26,13 @@
     margin:7.5px 1px;
     height:50px;
     width:50px;
+    cursor:pointer;
+     -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .minidiv img {
     max-height:100%;
@@ -40,19 +47,26 @@
     background-color:black;
     position: absolute;
     overflow: auto;
+    cursor:pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .imageframe img {
     margin: auto;
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
+    /*Bottm is set by js*/
 }
 /*Display 1 image*/
  .splitting_1-1 {
-    top:45px;
-    bottom: 67px;
+    top:47px;
+    bottom: 69px;
     left: 2px;
     right: 2px;
 }
@@ -60,14 +74,14 @@
 
 /*Display 2 images*/
  .splitting_2-1 {
-    top:45px;
-    bottom: 67px;
+    top:47px;
+    bottom: 69px;
     left: 2px;
     right: calc(50% + 1px);
 }
 .splitting_2-2 {
-    top:45px;
-    bottom:67px;
+    top:47px;
+    bottom:69px;
     left: calc(50% + 1px);
     right: 2px;
 }

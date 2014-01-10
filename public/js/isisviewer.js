@@ -14,12 +14,13 @@ $(document).on("pageinit", function() {
     
     //set the zomm level
     $(".imageframe img").css({
-        'max-height': '100%',
-        'max-width': '100%'
+    // Delete max-height / max-width and bottom for zooming
+    'max-height': '100%'
+    ,'max-width': '100%'
+    ,'bottom': '0'
     });
-    //set a different zoom level
-    // $(".imageframe img").removeAttr('style');
-    // $(".imageframe img").css({'height':'400%'});
+     
+
     
     //Click on image frame
     $(".imageframe").on("mousedown", function() {
@@ -32,7 +33,7 @@ $(document).on("pageinit", function() {
     $(".minidiv").on("click", function(){
         var selectedimage;
         selectedimage = $(this).children("img").attr("src");
-        console.log(selectedimage)
+        console.log(selectedimage);
         $("#"+selectedframe +" img").attr("src", selectedimage);
     });
     
@@ -41,7 +42,7 @@ $(document).on("pageinit", function() {
     $('#'+selectedfunction).addClass("ui-btn-active");
     $(".btntoolbar").on("click", function(){
        
-        
+        selectedfunction = $(this).attr('id');
         $(".btntoolbar").removeClass("ui-btn-active");
         $(this).addClass("ui-btn-active");
     });

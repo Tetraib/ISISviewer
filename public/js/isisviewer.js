@@ -43,18 +43,21 @@ $(document).on("pageinit", function() {
         selectedfunction = $(this).attr('id');
         $(".btntoolbar").removeClass("ui-btn-active");
         $(this).addClass("ui-btn-active");
-
+        var imageover;
         switch (selectedfunction) {
         case "nofunction":
             $(".imageframe").off('mouseenter');
             $("#frames").off('mousemove');
+            $(".imageframe").off("mousedown");
+            $(document).off("mousemove");
+            $(document).off("mouseup");
             break;
         case "magniglass":
             //
             // mag glass
             var native_width;
             var native_height;
-            var imageover;
+
 
             var image_offset;
             var zoomlevel = 1.5;
@@ -106,7 +109,30 @@ $(document).on("pageinit", function() {
             });
             break;
         case "lightcontr":
-            console.log("lightcontr");
+
+            
+            
+
+            $(".imageframe").on("mousedown", function(e) {
+
+               var initialpx = e.pageX;
+               var initialpy = e.pageY;
+
+                $(document).on("mousemove", function(e) {
+                    //get the difference with initial position of cursor
+                    var decalgey = initialpy - e.pageY;
+                    var decalgex = initialpx - e.pageX;
+                    //change css valu of the image
+                    $(".imageframe img").css({
+                        "-webkit-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")"
+                    });
+                })
+
+            })
+            $(document).on("mouseup", function() {
+                $(document).off("mousemove")
+            });
+
             break;
         }
     });

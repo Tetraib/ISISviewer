@@ -103,12 +103,12 @@ $(document).on("pageinit", function() {
             $("#frames").off('vmousemove');
             //LIGHT AND CONTRAST
 
-            $(".imageframe").on("touchstart vmousedown.lightcontr", function(e) {
+            $(".imageframe").on("vmousedown.lightcontr", function(e) {
                 //get the initial cursor position
                 var initialpx = e.pageX;
                 var initialpy = e.pageY;
                 var imagetochange = "#" + $(this).attr("id") + " img";
-                $(document).on("touchmove vmousemove", function(e) {
+                $(document).on("vmousemove", function(e) {
                     //get the difference with initial position of cursor
                     var decalgey = initialpy - e.pageY;
                     var decalgex = initialpx - e.pageX;
@@ -118,8 +118,8 @@ $(document).on("pageinit", function() {
                     });
                 });
             });
-            $(document).on("touchend vmouseup", function() {
-                $(document).off("touchmove vmousemove");
+            $(document).on("vmouseup", function() {
+                $(document).off("vmousemove");
             });
             break;
         }
@@ -129,9 +129,11 @@ $(document).on("pageinit", function() {
     var selectedgrid = 11;
     
     $("#gridchoice").on("change", function() {
+        var autoframe = [11,12,13,22,23,23,24,24,33,34,34,34,35,35,35,44,45,45,45,45,55,55,55,55,55];
         var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
         if($("#gridchoice option:selected").val()=="auto"){
-            selectedgrid=11;
+            selectedgrid=autoframe[$('.minidiv').length-1];
+            console.log($('.minidiv').length);
         }else{
                 selectedgrid = $("#gridchoice option:selected").val();
 
@@ -159,8 +161,5 @@ $(document).on("pageinit", function() {
             }
         }
     });
-    $(window ).on('resize', function(){
-                console.log($("#frame11").height()+"/"+$("#frame21").height()+"/"+$("#frame31").height()+"/"+$("#frame41").height()+"/"+$("#frame51").height());
 
-    });
 });

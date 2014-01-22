@@ -10,65 +10,101 @@ html(lang="fr")
         script(type="text/javascript" src="js/jquery.nicescroll.min.js")
         script(type="text/javascript" src="js/isisviewer.js")
     body
-        div(data-role='page' data-theme='b')
+        div#page(data-role='page' data-theme='b')
             div(data-role="header" data-position="fixed" data-tap-toggle="false")
                 h2 Jean DUPONT 15/08/1961 ♂
-                    
-                    
-                a(data-role="button") Back
+                div.ui-btn-left(data-role="controlgroup" data-type="horizontal" data-mini="true")
+                    a(data-role="button" ): i.fa.fa-bars
+                    a(data-role="button"): i.fa.fa-print
+                    a(data-role="button" href="#viewsettings" data-rel="popup" data-position-to="window" data-transition="fade"): i.fa.fa-plus
+
+
                 div.ui-btn-right(data-role="controlgroup" data-type="horizontal" data-mini="true")
                     a.btntoolbar(data-role="button" id="nofunction")   
                     a.btntoolbar(data-role="button" id="lightcontr"): i.fa.fa-adjust
                     a.btntoolbar(data-role="button" id="magniglass"): i.fa.fa-search-plus
-                    // a.btntoolbar(data-role="button" id="zoom"): i.fa.fa-expand
-                    a(data-role="button" id="grid" href="#viewsettings" data-rel="popup" data-position-to="window" data-transition="fade"): i.fa.fa-th
+                    select#gridchoice(data-icon="false")
+                        option(value="auto") Auto
+                        option(value="11") 1
+                        option(value="12") 2
+                        option(value="13") 3
+                        option(value="22") 4
+                        option(value="23") 6
+                        option(value="24") 8
+                        option(value="34") 12
+                        option(value="44") 16
+                        option(value="45") 20
+                        option(value="55") 25
                     // Config popup
                     div#viewsettings(data-role="popup" data-overlay-theme="b" style="width:400px;height:400px;")
                         div.ui-content(data-role="header")
-                            p Affichage
+                            p Option
                         div(data-role="content")
-                            fieldset(data-role="controlgroup" data-type="horizontal")
-                                input#radio-choice-1(type='radio', name='radio-choice-1', value='choice-1', checked='checked')
-                                label(for='radio-choice-1') 1X1
-                                input#radio-choice-2(type='radio', name='radio-choice-1', value='choice-2')
-                                label(for='radio-choice-2') 2X1
-                                input#radio-choice-3(type='radio', name='radio-choice-1', value='choice-3')
-                                label(for='radio-choice-3') 3X1
-                                input#radio-choice-4(type='radio', name='radio-choice-1', value='choice-4')
-                                label(for='radio-choice-4') 2X2
-                                input#radio-choice-5(type='radio', name='radio-choice-1', value='choice-6')
-                                label(for='radio-choice-5') 3X2
-                                input#radio-choice-6(type='radio', name='radio-choice-1', value='choice-8')
-                                label(for='radio-choice-6') 4X2
-                                input#radio-choice-7(type='radio', name='radio-choice-1', value='choice-9')
-                                label(for='radio-choice-7') 3X3
-                                input#radio-choice-8(type='radio', name='radio-choice-1', value='choice-12')
-                                label(for='radio-choice-8') 4X3
-                                input#radio-choice-9(type='radio', name='radio-choice-1', value='choice-16')
-                                label(for='radio-choice-9') 4X4
-
+                       
                             p Ajusté/100%
                             
-                            p Synchronisation scroll
-
-                            p Compairaison
+                            p Mag zoom
+                            
+                            p Maximum d'image en auto
+                            
+                            p reset comparaison
 
                             
             div(data-role="content")
-                
                 div#frames
                     div#mag
-                    div#frame1.imageframe.splitting_2-1
-                        
-                        
+
+                    div#frame11.imageframe
                         img(src="img/c/c1.jpg")
-                    div#frame2.imageframe.splitting_2-2
-                        
+                    div#frame12.imageframe
                         img(src="img/c/c4.jpg")
-                    // div#frame3.imageframe.splitting_4-3
-                    //     img(src="img/c/c3.jpg")
-                    // div#frame4.imageframe.splitting_4-4
-                    //     img(src="img/c/c4.jpg")
+                    div#frame13.imageframe
+                        img(src="img/c/c3.jpg")
+                    div#frame14.imageframe
+                        img(src="img/c/c3.jpg")
+                    div#frame15.imageframe
+                        img(src="img/c/c3.jpg")
+                    div#frame21.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame22.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame23.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame24.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame25.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame31.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame32.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame33.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame34.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame35.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame41.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame42.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame43.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame44.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame45.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame51.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame52.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame53.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame54.imageframe
+                        img(src="img/c/c4.jpg")
+                    div#frame55.imageframe
+                        img(src="img/c/c4.jpg")
+                    
             div(data-role="footer" data-position="fixed" data-tap-toggle="false")
                 div.minilist
                     div.minilisttodiv

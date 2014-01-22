@@ -1,4 +1,17 @@
-
+#page {
+    overflow: hidden;
+}
+/*Mag glass*/
+ #mag {
+    z-index:999999;
+    width: 175px;
+    height: 175px;
+    position: absolute;
+    border-radius: 100%;
+    cursor: none;
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85), 0 0 7px 7px rgba(0, 0, 0, 0.25), inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+    display: none;
+}
 .frameborder {
     outline-style:solid !important;
     outline-width:2px !important;
@@ -11,7 +24,6 @@
     padding: 0;
     height:65px;
     width:100%;
-    
 }
 /*Minilisttodiv is required to make scrollbar appear on resize*/
  .minilisttodiv {
@@ -42,14 +54,12 @@
     max-width:100%;
     margin:0 auto;
 }
-/*___________*/
-
-/*Image frame*/
  .imageframe {
     text-align:center;
     background-color:black;
     position: absolute;
-    overflow: auto;
+    /*overflow auto for 100%*/
+    overflow:auto;
     cursor:pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -57,100 +67,151 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+   /*Transition animation*/
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 .imageframe img {
     margin: auto;
     position: absolute;
-    
     top: 0;
     left: 0;
     right: 0;
-    /*Bottm is set by js*/
-    
+    /*Bottm is set by js for 100%*/
     /*To solve mag overlap bug at the edges during magnification*/
     display: block;
 }
-/*Display 1 image*/
- .splitting_1-1 {
-    top:47px;
-    bottom: 69px;
+/*Horizontal Splitting*/
+/*1*/
+ .splith_1-1 {
     left: 2px;
     right: 2px;
 }
-/*----------------*/
-
-/*Display 2 images*/
- .splitting_2-1 {
-    top:47px;
-    bottom: 69px;
+/*2*/
+ .splith_2-1 {
     left: 2px;
     right: calc(50% + 1px);
 }
-.splitting_2-2 {
-    top:47px;
-    bottom:69px;
+.splith_2-2 {
     left: calc(50% + 1px);
     right: 2px;
 }
-/*----------------*/
-
-/*Display 3 images*/
- .splitting_3-1 {
-    top:45px;
-    bottom: 67px;
+/*3*/
+ .splith_3-1 {
     left: 2px;
     right: calc(66.66% + 1px);
 }
-.splitting_3-2 {
-    top:45px;
-    bottom: 67px;
+.splith_3-2 {
     left: calc(33.33% + 1px);
     right: calc(33.33% + 1px);
 }
-.splitting_3-3 {
-    top:45px;
-    bottom: 67px;
+.splith_3-3 {
     left: calc(66.66% + 1px);
     right: 2px;
 }
-/*----------------*/
-
-/*Display 4 images*/
- .splitting_4-1 {
-    top:45px;
-    bottom: calc(50% + 1px);
+/*4*/
+ .splith_4-1 {
     left: 2px;
+    right: calc(75% + 1px);
+}
+.splith_4-2 {
+    left: calc(25% + 1px);
     right: calc(50% + 1px);
 }
-.splitting_4-2 {
-    top:45px;
-    bottom: calc(50% + 1px);
+.splith_4-3 {
     left: calc(50% + 1px);
+    right: calc(25% + 1px);
+}
+.splith_4-4 {
+    left: calc(75% + 1px);
     right: 2px;
 }
-.splitting_4-3 {
-    top: calc(1px + 50%);
-    bottom: 67px;
+/*5*/
+ .splith_5-1 {
     left: 2px;
-    right: calc(50% + 1px);
+    right: calc(80% + 1px);
 }
-.splitting_4-4 {
-    top: calc(1px + 50%);
-    bottom: 67px;
-    left: calc(50% + 1px);
+.splith_5-2 {
+    left: calc(20% + 1px);
+    right: calc(60% + 1px);
+}
+.splith_5-3 {
+    left: calc(40% + 1px);
+    right: calc(40% + 1px);
+}
+.splith_5-4 {
+    left: calc(60% + 1px);
+    right: calc(20% + 1px);
+}
+.splith_5-5 {
+    left: calc(80% + 1px);
     right: 2px;
 }
-/*Mag glass*/
- #mag {
-    z-index:999999;
-    width: 175px;
-    height: 175px;
-    position: absolute;
-    border-radius: 100%;
-    cursor: none;
-    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85), 0 0 7px 7px rgba(0, 0, 0, 0.25), inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
-    display: none;
-    
+/*Vertical Splitting*/
+/*1*/
+ .splitv_1-10 {
+    top: 47px;
+    bottom: 69px;
 }
-
-
+/*2*/
+ .splitv_2-10 {
+    top: 47px;
+    bottom: calc(50% + 1px + 11px);
+}
+.splitv_2-20 {
+    top: calc(1px + 50% - 11px);
+    bottom: 69px;
+}
+/*3*/
+ .splitv_3-10 {
+    top: 47px;
+    bottom: calc(66.66% + 1px - 8px);
+}
+.splitv_3-20 {
+    top: calc(33.33% + 1px + 8px);
+    bottom: calc(33.33% + 1px + 30px);
+}
+.splitv_3-30 {
+    top: calc(66.66% + 1px - 30px);
+    bottom: 69px;
+}
+/*4*/
+ .splitv_4-10 {
+    top: 47px;
+    bottom: calc(75% + 1px - 17.5px);
+}
+.splitv_4-20 {
+    top: calc(25% + 1px + 17.5px);
+    bottom: calc(50% + 1px + 11px);
+}
+.splitv_4-30 {
+    top: calc(50% + 1px - 11px);
+    bottom: calc(25% + 1px + 39.5px);
+}
+.splitv_4-40 {
+    top: calc(75% + 1px - 39.5px);
+    bottom: 69px;
+}
+/*5*/
+ .splitv_5-10 {
+    top: 47px;
+    bottom: calc(80% + 1px - 23px);
+}
+.splitv_5-20 {
+    top: calc(20% + 1px + 23px);
+    bottom: calc(60% + 1px - 0px );
+}
+.splitv_5-30 {
+    top: calc(40% + 1px  + 0px);
+    bottom: calc(40% + 1px + 22px);
+}
+.splitv_5-40 {
+    top: calc(60% + 1px  - 22px);
+    bottom: calc(20% + 1px + 45px);
+}
+.splitv_5-50 {
+    top: calc(80% + 1px - 45px);
+    bottom: 69px;
+}

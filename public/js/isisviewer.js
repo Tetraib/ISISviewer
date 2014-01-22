@@ -1,81 +1,71 @@
 $(document).on("pageinit", function() {
     // initialize selected frame
-    var selectedframe = "frame1";
-    $("#" + selectedframe).addClass("frameborder");
+    var selectedframe;
 
     //disable image drag and drop
     $('.imageframe, .minidiv').on('dragstart', function(event) {
         event.preventDefault();
     });
-
     //custom scrollbar
     $(".minilist").niceScroll();
-    $(".imageframe").niceScroll();
+    // For frame 100%
+    // $(".imageframe").niceScroll();
 
     //set the zomm level
     $(".imageframe img").css({
-        // Delete max-height / max-width and bottom for zooming
+        // Delete max-height / max-width / bottom  for 100% frame
         'max-height': '100%',
         'max-width': '100%',
         'bottom': '0'
     });
-
-
-
     //Click on image frame
-    $(".imageframe").on("mousedown", function() {
+    $(".imageframe").on("vmousedown", function() {
         $(".imageframe").removeClass("frameborder");
         $(this).addClass("frameborder");
         selectedframe = $(this).attr('id');
     });
     // Click on minidiv
-    $(".minidiv").on("click", function() {
+    $(".minidiv").on("vclick", function() {
         var selectedimage;
         selectedimage = $(this).children("img").attr("src");
         $("#" + selectedframe + " img").attr("src", selectedimage);
     });
-
     //Click btn toolbar
     var selectedfunction = "nofunction";
     $('#' + selectedfunction).addClass("ui-btn-active");
-    $(".btntoolbar").on("click", function() {
-
+    $(".btntoolbar").on("vclick", function() {
         selectedfunction = $(this).attr('id');
         $(".btntoolbar").removeClass("ui-btn-active");
         $(this).addClass("ui-btn-active");
         var imageover;
         switch (selectedfunction) {
         case "nofunction":
+            // cancel all functions
             $(".imageframe").off('mouseenter');
-            $("#frames").off('mousemove');
-            $(".imageframe").off("mousedown");
-            $(document).off("mousemove");
-            $(document).off("mouseup");
+            $("#frames").off('vmousemove');
+            $(".imageframe").off("vmousedown.lightcontr");
+            $(document).off("vmousemove");
+            $(document).off("vmouseup");
             break;
         case "magniglass":
-            //
-            // mag glass
+            $(".imageframe").off("vmousedown.lightcontr");
+            $(document).off("vmousemove");
+            $(document).off("vmouseup");
+            // MAG GLASS
             var native_width;
             var native_height;
-
-
             var image_offset;
             var zoomlevel = 1.5;
             var image_object = new Image();
-            //Set image mag
+            //Set mag image background
             $(".imageframe").on('mouseenter', function() {
-
                 if (imageover != "#" + $(this).attr('id') + " img") {
-
                     imageover = "#" + $(this).attr('id') + " img";
-
                     image_object.src = $(imageover).attr("src");
-
                     image_object.onload = function() {
                         native_width = (image_object.width) * zoomlevel;
                         native_height = (image_object.height) * zoomlevel;
                         image_offset = $(imageover).offset();
-
                         $('#mag').css({
                             'background': "url(" + $(imageover).attr("src") + ") no-repeat",
                             'background-size': native_width
@@ -83,8 +73,8 @@ $(document).on("pageinit", function() {
                     };
                 }
             });
-
-            $("#frames").on("mousemove", function(e) {
+            $("#frames").on("vmousemove", function(e) {
+                //check if image is loaded
                 if (image_offset) {
                     var mx = e.pageX - image_offset.left;
                     var my = e.pageY - image_offset.top;
@@ -109,34 +99,68 @@ $(document).on("pageinit", function() {
             });
             break;
         case "lightcontr":
+            $(".imageframe").off('mouseenter');
+            $("#frames").off('vmousemove');
+            //LIGHT AND CONTRAST
 
-            
-            
-
-            $(".imageframe").on("mousedown", function(e) {
-
-               var initialpx = e.pageX;
-               var initialpy = e.pageY;
-
-                $(document).on("mousemove", function(e) {
+            $(".imageframe").on("vmousedown.lightcontr", function(e) {
+                //get the initial cursor position
+                var initialpx = e.pageX;
+                var initialpy = e.pageY;
+                var imagetochange = "#" + $(this).attr("id") + " img";
+                $(document).on("vmousemove", function(e) {
                     //get the difference with initial position of cursor
                     var decalgey = initialpy - e.pageY;
                     var decalgex = initialpx - e.pageX;
                     //change css valu of the image
-                    $(".imageframe img").css({
+                    $(imagetochange).css({
                         "-webkit-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")"
                     });
-                })
-
-            })
-            $(document).on("mouseup", function() {
-                $(document).off("mousemove")
+                });
             });
-
+            $(document).on("vmouseup", function() {
+                $(document).off("vmousemove");
+            });
             break;
         }
     });
+    //
+    //Display grid
+    var selectedgrid = 11;
+    
+    $("#gridchoice").on("change", function() {
+        var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
+        if($("#gridchoice option:selected").val()=="auto"){
+            selectedgrid=11;
+        }else{
+                selectedgrid = $("#gridchoice option:selected").val();
 
+        }
+        var selectedgridten = Math.floor(selectedgrid / 10);
+        var selectedgridunit = selectedgrid % 10;
+        for (var i = 0; i < framelist.length; i++) {
+            var framelistten = Math.floor(framelist[i] / 10);
+            var framelisunit = framelist[i] % 10;
+            if (framelistten > selectedgridten || framelisunit > selectedgridunit) {
+                $("#frame" + framelist[i]).css({
+                    opacity: 0
+                });
+                $("#frame" + framelist[i]).css({
+                    visibility: 'hidden'
+                });
+            }
+            else {
+                $("#frame" + framelist[i]).css({
+                    visibility: 'visible'
+                });
+                $("#frame" + framelist[i]).attr('class', 'imageframe').css({
+                    opacity: 1
+                }).addClass("splith_" + selectedgridunit + "-" + framelisunit).addClass("splitv_" + selectedgridten + "-" + framelistten * 10);
+            }
+        }
+    });
+    $(window ).on('resize', function(){
+                console.log($("#frame11").height()+"/"+$("#frame21").height()+"/"+$("#frame31").height()+"/"+$("#frame41").height()+"/"+$("#frame51").height());
 
-
+    });
 });

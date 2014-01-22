@@ -103,12 +103,12 @@ $(document).on("pageinit", function() {
             $("#frames").off('vmousemove');
             //LIGHT AND CONTRAST
 
-            $(".imageframe").on("vmousedown.lightcontr", function(e) {
+            $(".imageframe").on("touchstart vmousedown.lightcontr", function(e) {
                 //get the initial cursor position
                 var initialpx = e.pageX;
                 var initialpy = e.pageY;
                 var imagetochange = "#" + $(this).attr("id") + " img";
-                $(document).on("vmousemove", function(e) {
+                $(document).on("touchmove vmousemove", function(e) {
                     //get the difference with initial position of cursor
                     var decalgey = initialpy - e.pageY;
                     var decalgex = initialpx - e.pageX;
@@ -118,8 +118,8 @@ $(document).on("pageinit", function() {
                     });
                 });
             });
-            $(document).on("vmouseup", function() {
-                $(document).off("vmousemove");
+            $(document).on("touchend vmouseup", function() {
+                $(document).off("touchmove vmousemove");
             });
             break;
         }

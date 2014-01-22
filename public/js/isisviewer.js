@@ -126,9 +126,8 @@ $(document).on("pageinit", function() {
     });
     //
     //Display grid
-    var selectedgrid = 11;
-    
-    $("#gridchoice").on("change", function() {
+   var displaygrid = function(){
+        var selectedgrid;
         var autoframe = [11,12,13,22,23,23,24,24,33,34,34,34,35,35,35,44,45,45,45,45,55,55,55,55,55];
         var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
         if($("#gridchoice option:selected").val()=="auto"){
@@ -160,6 +159,10 @@ $(document).on("pageinit", function() {
                 }).addClass("splith_" + selectedgridunit + "-" + framelisunit).addClass("splitv_" + selectedgridten + "-" + framelistten * 10);
             }
         }
+    };
+    displaygrid();
+    $("#gridchoice").on("change", function() {
+        displaygrid();
     });
 
 });

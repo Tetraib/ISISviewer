@@ -1,3 +1,22 @@
+(function($) {
+    $.fn.doubleTap = function(doubleTapCallback) {
+        return this.each(function() {
+            var elm = this;
+            var lastTap = 0;
+            $(elm).bind('vmousedown', function(e) {
+                var now = (new Date()).valueOf();
+                var diff = (now - lastTap);
+                lastTap = now;
+                if (diff < 250) {
+                    if ($.isFunction(doubleTapCallback)) {
+                        doubleTapCallback.call(elm);
+                    }
+                }
+            });
+        });
+    }
+})(jQuery);
+
 $(document).on("pageinit", function() {
     // initialize selected frame
     var selectedframe;
@@ -104,17 +123,24 @@ $(document).on("pageinit", function() {
             //LIGHT AND CONTRAST
 
             $(".imageframe").on("vmousedown.lightcontr", function(e) {
+                console.log("hello")
+
                 //get the initial cursor position
                 var initialpx = e.pageX;
                 var initialpy = e.pageY;
                 var imagetochange = "#" + $(this).attr("id") + " img";
                 $(document).on("vmousemove", function(e) {
+
                     //get the difference with initial position of cursor
                     var decalgey = initialpy - e.pageY;
                     var decalgex = initialpx - e.pageX;
                     //change css valu of the image
                     $(imagetochange).css({
-                        "-webkit-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")"
+                        "filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
+                        "-webkit-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
+                        "-moz-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
+                        "-o-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
+                        "-ms-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
                     });
                 });
             });
@@ -126,15 +152,15 @@ $(document).on("pageinit", function() {
     });
     //
     //Display grid
-   var displaygrid = function(){
+    var displaygrid = function() {
         var selectedgrid;
-        var autoframe = [11,12,13,22,23,23,24,24,33,34,34,34,35,35,35,44,45,45,45,45,55,55,55,55,55];
+        var autoframe = [11, 12, 13, 22, 23, 23, 24, 24, 33, 34, 34, 34, 35, 35, 35, 44, 45, 45, 45, 45, 55, 55, 55, 55, 55];
         var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
-        if($("#gridchoice option:selected").val()=="auto"){
-            selectedgrid=autoframe[$('.minidiv').length-1];
-            console.log($('.minidiv').length);
-        }else{
-                selectedgrid = $("#gridchoice option:selected").val();
+        if ($("#gridchoice option:selected").val() == "auto") {
+            selectedgrid = autoframe[$('.minidiv').length - 1];
+        }
+        else {
+            selectedgrid = $("#gridchoice option:selected").val();
 
         }
         var selectedgridten = Math.floor(selectedgrid / 10);
@@ -163,6 +189,13 @@ $(document).on("pageinit", function() {
     displaygrid();
     $("#gridchoice").on("change", function() {
         displaygrid();
+    });
+    $(document).on("taphold", function() {
+        console.log("hello2");
+    });
+    //  put class="doubleTap" on the elements you need to double tap
+    $(document).doubleTap(function() {
+        console.log("hello");
     });
 
 });

@@ -18,8 +18,6 @@
 })(jQuery);
 
 $(document).on("pageinit", function() {
-    // initialize selected frame
-    var selectedframe;
 
     //disable image drag and drop
     $('.imageframe, .minidiv').on('dragstart', function(event) {
@@ -37,18 +35,7 @@ $(document).on("pageinit", function() {
         'max-width': '100%',
         'bottom': '0'
     });
-    //Click on image frame
-    $(".imageframe").on("vmousedown", function() {
-        $(".imageframe").removeClass("frameborder");
-        $(this).addClass("frameborder");
-        selectedframe = $(this).attr('id');
-    });
-    // Click on minidiv
-    $(".minidiv").on("vclick", function() {
-        var selectedimage;
-        selectedimage = $(this).children("img").attr("src");
-        $("#" + selectedframe + " img").attr("src", selectedimage);
-    });
+
     //Click btn toolbar
     var selectedfunction = "nofunction";
     $('#' + selectedfunction).addClass("ui-btn-active");
@@ -140,7 +127,7 @@ $(document).on("pageinit", function() {
                         "-webkit-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
                         "-moz-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
                         "-o-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
-                        "-ms-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")",
+                        "-ms-filter": "contrast(" + (1 + decalgey / 200) + ") brightness(" + (1 + decalgex / 200) + ")"
                     });
                 });
             });
@@ -152,17 +139,17 @@ $(document).on("pageinit", function() {
     });
     //
     //Display grid
-    var displaygrid = function() {
+    var displaygrid = function(select, auto) {
         var selectedgrid;
         var autoframe = [11, 12, 13, 22, 23, 23, 24, 24, 33, 34, 34, 34, 35, 35, 35, 44, 45, 45, 45, 45, 55, 55, 55, 55, 55];
         var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
-        if ($("#gridchoice option:selected").val() == "auto") {
-            selectedgrid = autoframe[$('.minidiv').length - 1];
+        if (select == "auto") {
+            selectedgrid = autoframe[auto - 1];
         }
         else {
-            selectedgrid = $("#gridchoice option:selected").val();
-
+            selectedgrid = select;
         }
+
         var selectedgridten = Math.floor(selectedgrid / 10);
         var selectedgridunit = selectedgrid % 10;
         for (var i = 0; i < framelist.length; i++) {
@@ -173,12 +160,13 @@ $(document).on("pageinit", function() {
                     opacity: 0
                 });
                 $("#frame" + framelist[i]).css({
-                    visibility: 'hidden'
+                    display: "none"
                 });
             }
             else {
                 $("#frame" + framelist[i]).css({
-                    visibility: 'visible'
+                    "display": 'inline',
+                    "z-index":'auto'
                 });
                 $("#frame" + framelist[i]).attr('class', 'imageframe').css({
                     opacity: 1
@@ -186,16 +174,38 @@ $(document).on("pageinit", function() {
             }
         }
     };
-    displaygrid();
+
+    displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
     $("#gridchoice").on("change", function() {
-        displaygrid();
+        displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
     });
-    $(document).on("taphold", function() {
-        console.log("hello2");
-    });
-    //  put class="doubleTap" on the elements you need to double tap
-    $(document).doubleTap(function() {
-        console.log("hello");
+
+    $(".imageframe").doubleTap(function() {
+        var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
+
+        var selectedframe = "#" + $(this).attr("id")
+          if($(selectedframe).hasClass("splith_1-1") && $(selectedframe).hasClass("splitv_1-10")){
+            console.log("im 1")
+                displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
+
+            }else{
+        for (var i = 0; i < framelist.length; i++) {
+          
+            if (selectedframe != "#frame" + framelist[i]) {
+                $("#frame" + framelist[i]).css({
+                    opacity: 0
+                });
+                $("#frame" + framelist[i]).css({
+                    display: "none"
+                });
+            }
+            else {
+                $(selectedframe).attr('class', 'imageframe').addClass("splith_1-1").addClass("splitv_1-10").css({
+                    "z-index": "99"
+                });
+            }
+        }
+        }
     });
 
 });

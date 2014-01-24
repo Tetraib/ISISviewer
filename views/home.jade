@@ -23,7 +23,8 @@ html(lang="fr")
                     a.btntoolbar(data-role="button" id="nofunction")   
                     a.btntoolbar(data-role="button" id="lightcontr"): i.fa.fa-adjust
                     a.btntoolbar(data-role="button" id="magniglass"): i.fa.fa-search-plus
-                    select#gridchoice(data-icon="false" data-native-menu="false")
+                    // data-native-menu="true" cause on click trouble !!!
+                    select#gridchoice(name="select-choice-1" data-icon="false" data-native-menu="true")
                         option(value="auto") Auto
                         option(value="11") 1
                         option(value="12") 2

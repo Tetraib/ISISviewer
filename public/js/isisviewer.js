@@ -14,11 +14,10 @@
                 }
             });
         });
-    }
+    };
 })(jQuery);
 
 $(document).on("pageinit", function() {
-
     //disable image drag and drop
     $('.imageframe, .minidiv').on('dragstart', function(event) {
         event.preventDefault();
@@ -27,7 +26,6 @@ $(document).on("pageinit", function() {
     $(".minilist").niceScroll();
     // For frame 100%
     // $(".imageframe").niceScroll();
-
     //set the zomm level
     $(".imageframe img").css({
         // Delete max-height / max-width / bottom  for 100% frame
@@ -35,7 +33,6 @@ $(document).on("pageinit", function() {
         'max-width': '100%',
         'bottom': '0'
     });
-
     //Click btn toolbar
     var selectedfunction = "nofunction";
     $('#' + selectedfunction).addClass("ui-btn-active");
@@ -108,16 +105,12 @@ $(document).on("pageinit", function() {
             $(".imageframe").off('mouseenter');
             $("#frames").off('vmousemove');
             //LIGHT AND CONTRAST
-
             $(".imageframe").on("vmousedown.lightcontr", function(e) {
-                console.log("hello")
-
                 //get the initial cursor position
                 var initialpx = e.pageX;
                 var initialpy = e.pageY;
                 var imagetochange = "#" + $(this).attr("id") + " img";
                 $(document).on("vmousemove", function(e) {
-
                     //get the difference with initial position of cursor
                     var decalgey = initialpy - e.pageY;
                     var decalgex = initialpx - e.pageX;
@@ -149,7 +142,6 @@ $(document).on("pageinit", function() {
         else {
             selectedgrid = select;
         }
-
         var selectedgridten = Math.floor(selectedgrid / 10);
         var selectedgridunit = selectedgrid % 10;
         for (var i = 0; i < framelist.length; i++) {
@@ -166,7 +158,7 @@ $(document).on("pageinit", function() {
             else {
                 $("#frame" + framelist[i]).css({
                     "display": 'inline',
-                    "z-index":'auto'
+                    "z-index": 'auto'
                 });
                 $("#frame" + framelist[i]).attr('class', 'imageframe').css({
                     opacity: 1
@@ -174,38 +166,32 @@ $(document).on("pageinit", function() {
             }
         }
     };
-
     displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
     $("#gridchoice").on("change", function() {
         displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
     });
-
     $(".imageframe").doubleTap(function() {
         var framelist = [11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55];
-
-        var selectedframe = "#" + $(this).attr("id")
-          if($(selectedframe).hasClass("splith_1-1") && $(selectedframe).hasClass("splitv_1-10")){
-            console.log("im 1")
-                displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
-
-            }else{
-        for (var i = 0; i < framelist.length; i++) {
-          
-            if (selectedframe != "#frame" + framelist[i]) {
-                $("#frame" + framelist[i]).css({
-                    opacity: 0
-                });
-                $("#frame" + framelist[i]).css({
-                    display: "none"
-                });
-            }
-            else {
-                $(selectedframe).attr('class', 'imageframe').addClass("splith_1-1").addClass("splitv_1-10").css({
-                    "z-index": "99"
-                });
-            }
+        var selectedframe = "#" + $(this).attr("id");
+        if ($(selectedframe).hasClass("splith_1-1") && $(selectedframe).hasClass("splitv_1-10")) {
+            displaygrid($("#gridchoice option:selected").val(), $('.minidiv').length);
         }
+        else {
+            for (var i = 0; i < framelist.length; i++) {
+                if (selectedframe != "#frame" + framelist[i]) {
+                    $("#frame" + framelist[i]).css({
+                        opacity: 0
+                    });
+                    $("#frame" + framelist[i]).css({
+                        display: "none"
+                    });
+                }
+                else {
+                    $(selectedframe).attr('class', 'imageframe').addClass("splith_1-1").addClass("splitv_1-10").css({
+                        "z-index": "99"
+                    });
+                }
+            }
         }
     });
-
 });

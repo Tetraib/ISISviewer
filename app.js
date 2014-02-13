@@ -1,7 +1,9 @@
 var express = require("express"),
-    app = express();
-var fs = require('fs');
-var cheerio = require('cheerio');
+    app = express(),
+    fs = require('fs'),
+    cheerio = require('cheerio'),
+    GAPI = require('node-gcs').gapitoken,
+    GCS = require('node-gcs');
 app.configure(function() {
     app.use(express.static(__dirname + '/public'));
     app.use(express.json());
@@ -9,62 +11,98 @@ app.configure(function() {
     app.use(express.multipart());
 });
 app.listen(process.env.PORT, process.env.IP);
-//prototype
-function Dcm2json(xmldata, image) {
-    this.image = image;
-    this.dcmobject = {};
-    this.$ = cheerio.load(xmldata, {
+//Prototype declaration
+//Dicomjson, it require cheerio
+function Dicomjson(data, image) {
+    this.data = data;
+    this.$ = cheerio.load(data, {
         normalizeWhitespace: true,
         xmlMode: true
     });
+    this.jsondata = {};
 }
-Dcm2json.prototype = {
-    constructor: Dcm2json,
-    get jsondata() {
-        this.$('element').each(function(i, elem) {
-            if ($(this).text() !== "") {
-                this.dcmobject[$(this).attr("name")] = [{
-                    "val": $(this).text()
+Dicomjson.prototype = {
+    constructor: Dicomjson,
+    get getjson() {
+        this.jsondata.metaheader = [{
+            'xfer': this.$('meta-header').attr("xfer")
+        }, {
+            "name": this.$('meta-header').attr("name")
+        }];
+        this.jsondata.dataset = [{
+            'xfer': this.$('data-set').attr("xfer")
+        }, {
+            "name": this.$('data-set').attr("name")
+        }];
+        this.$('element').each((function(i, elem) {
+            if (this.$(elem).text() !== "") {
+                this.jsondata[this.$(elem).attr("name")] = [{
+                    "val": this.$(elem).text()
                 }, {
-                    "tag": $(this).attr("tag")
+                    "tag": this.$(elem).attr("tag")
                 }, {
-                    "vr": $(this).attr("vr")
+                    "vr": this.$(elem).attr("vr")
                 }];
             }
-        });
-        return this.dcmobject;
+        }).bind(this));
+        // /!\ .bind this to change the "this" value
+        return this.jsondata;
     }
 };
-
-
-app.get('/', function(req, res) {
-    res.render("home.jade");
-});
-
-app.post('/dicomin', function(req, res) {
-    var dicom = {};
-    // curl command :
-    // curl "https://isisviewer-c9-tetraib.c9.io/dicomin" -F image=@"B2.jpg" -F data=@"B2.xml"
-    fs.readFile(req.files.data.path, 'utf8', function(err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        var $ = cheerio.load(data, {
-            normalizeWhitespace: true,
-            xmlMode: true
-        });
-        $('element').each(function(i, elem) {
-            if ($(this).text() !== "") {
-                dicom[$(this).attr("name")] = [{
-                    "val": $(this).text()
-                }, {
-                    "tag": $(this).attr("tag")
-                }, {
-                    "vr": $(this).attr("vr")
-                }];
-            }
-        });
-        console.log(dicom);
+// /Prototype declaration
+//
+var mongoose = require('mongoose');
+mongoose.connect("mongodb://test:test@troup.mongohq.com:10001/app21474120");
+var db = mongoose.connection;
+//DB open function
+db.on('error', console.error.bind(console, 'mongodb connection error:'));
+db.once('open', function callback() {
+    console.log("connected");
+    //Schema strict : false to accept any formated data only use it to write to db incoming dicom
+    var dicomschemaless = new mongoose.Schema({}, {
+        strict: false
     });
-    res.send(200);
+    var dicomwrite = mongoose.model('dicom', dicomschemaless);
+    //
+    app.get('/', function(req, res) {
+        res.render("home.jade");
+    });
+    //The route to receive dicom :
+    app.post('/dicomin', function(req, res) {
+        // curl command to post files :
+        // curl "https://isisviewer-c9-tetraib.c9.io/dicomin" -F image=@"B2.jpg" -F data=@"B2.xml"
+        fs.readFile(req.files.data.path, 'utf8', function(err, data) {
+            if (err) {
+                console.log(err);
+            }
+            var dicomjson = new Dicomjson(data);
+            // Store the formated json of dicom data
+            var savedicomwrite = new dicomwrite(dicomjson.getjson);
+            savedicomwrite.save(function(err) {
+                if (err) {
+                    console.log(err);
+                }
+                res.send(200);
+            });
+            var gapi = new GAPI({
+                iss: '305435103473-pdkn65n1g11vaa66vobq9fidubrcp1o6@developer.gserviceaccount.com',
+                scope: 'https://www.googleapis.com/auth/devstorage.read_write',
+                keyFile: './key.pem'
+            }, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+                var headers = {
+                    'Content-Type': 'Image/jpeg'
+                };
+                var file = fs.createReadStream(req.files.image.path);
+                var gcs = new GCS(gapi);
+                gcs.putStream(file, 'dicomdra', '/test.jpg', headers, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        });
+    });
 });
